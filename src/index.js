@@ -7,9 +7,7 @@ function App() {
     console.log("starting");
     
     const VM = require("sablejs/runtime")();
-    // import console.log function to vm call
     const vm = new VM();
-    // ajax4sablejs(vm);
 
     const vGlobal = vm.getGlobal();
     const vConsole = vm.createObject();
@@ -38,11 +36,11 @@ function App() {
       }
   
       if (vm.isFunction(vSuccess)) {
-        option.success = function (response) {
-          console.log(vSuccess);
+        option.success = function(response) {
           vm.call(
             vSuccess,
-            vGlobal
+            vm.createUndefined(),
+            vm.createString("test")
           );
         };
       }
@@ -63,14 +61,13 @@ function App() {
         xhr.send(null);
       }
   
-      console.log(option);
       send(option);
       return vm.createUndefined();
     });
 
     vm.setProperty(vGlobal, "ajax", vAjax);
-    vm.setProperty(vConsole, "log", vLog);
     vm.setProperty(vGlobal, "console", vConsole);
+    vm.setProperty(vConsole, "log", vLog);
 
     (async () => {
       const resp = await fetch("./output.txt");
