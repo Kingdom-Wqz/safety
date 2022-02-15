@@ -40,7 +40,7 @@ function App() {
           vm.call(
             vSuccess,
             vm.createUndefined(),
-            vm.createString("test")
+            vm.createString(response)
           );
         };
       }
@@ -53,7 +53,6 @@ function App() {
         xhr.onload = () => {
           if (xhr.readyState === 4 && xhr.status === 200) {
             const response = xhr.responseText;
-            console.log(response);
             option.success(response);
           }
         };
@@ -73,7 +72,7 @@ function App() {
       const resp = await fetch("./output.txt");
       const data = await resp.text();
       vm.run(data);
-      vm.destroy();
+      // vm.destroy();
     })();
   }, []);
 
